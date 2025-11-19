@@ -1,19 +1,34 @@
 package com.company;
 
+
+import lombok.Data;
+import java.util.List;
+
+@Data
 public class User {
-    private String name;
-    private int age;
 
-    public User() {}
+    private String status;
+    private DataWrapper data;
 
-    public User(String name, int age) {
-        this.name = name;
-        this.age = age;
+    @Data
+    public static class DataWrapper {
+        private UserDetails userDetails;
+        private String timestamp;
     }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    @Data
+    public static class UserDetails {
+        private int id;
+        private String name;
+        private int age;
+        private Address address;
+        private List<String> roles;
 
-    public int getAge() { return age; }
-    public void setAge(int age) { this.age = age; }
+        @Data
+        public static class Address {
+            private String street;
+            private String city;
+            private String zip;
+        }
+    }
 }

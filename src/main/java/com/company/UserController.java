@@ -13,26 +13,28 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    private KafkaTemplate<String, User> kafkaTemplate;
+    private KafkaTemplate<String, User.UserDetails> kafkaTemplate;
 
-    private List<User> userList = new ArrayList<>();
+    private List<User.UserDetails> userList = new ArrayList<>();
 
     // GET endpoint returning a list of users (custom object)
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
+    public ResponseEntity<List<User.UserDetails>> getAllUsers() {
         return ResponseEntity.ok(userList);
     }
 
     // POST endpoint creating user, sending to Kafka, and returning the object
     @PostMapping
-    public ResponseEntity<List<User>> createUser(@RequestBody User user) {
+    public ResponseEntity<List<User.UserDetails>> createUser(@RequestBody User user) {
+
+        User.UserDetails userDetails =  user.getData().getUserDetails();
 
 
-        System.out.println(">>> POST /users called: " + user);
-        userList.add(user);
+        System.out.println(">>> POST /users called: " + userDetails);
+        userList.add(userDetails);
 
         // Send user to Kafka
-        kafkaTemplate.send(KafkaProducerConfig.TOPIC_NAME, user);
+        kafkaTemplate.send(KafkaProducerConfig.TOPIC_NAME, userDetails);
 
         return ResponseEntity.ok(userList);
     }

@@ -11,8 +11,8 @@ public class UserConsumer {
             groupId = "my-group",
             containerFactory = "kafkaListenerContainerFactory"
     )
-    public void consume(User user) {
-        System.out.println("Consumed user: " + user.getName() + ", age: " + user.getAge());
+    public void consume(User.UserDetails userDetails) {
+        System.out.println("Consumed userDetails: " + userDetails);
     }
 
 }

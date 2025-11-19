@@ -18,7 +18,7 @@ public class KafkaProducerConfig {
     public static final String TOPIC_NAME = "user-topic";
 
     @Bean
-    public ProducerFactory<String, User> producerFactory() {
+    public ProducerFactory<String, User.UserDetails> producerFactory() {
         Map<String, Object> config = new HashMap<>();
         config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -27,7 +27,7 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    public KafkaTemplate<String, User> kafkaTemplate() {
+    public KafkaTemplate<String, User.UserDetails> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 
