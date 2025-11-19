@@ -1,5 +1,6 @@
 package com.company;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -25,14 +26,15 @@ public class UserController {
 
     // POST endpoint creating user, sending to Kafka, and returning the object
     @PostMapping
-    public ResponseEntity<List<User.UserDetails>> createUser(@RequestBody User user) {
+    public ResponseEntity<List<User.UserDetails>> createUser(@Valid @RequestBody User user) throws Exception {
 
         User.UserDetails userDetails =  user.getData().getUserDetails();
 
-
-        System.out.println(">>> POST /users called: " + userDetails);
+        // Null-check to avoid NPE
+        if (userDetails == null) {
+            throw new Exception("UserDetails cannot be null");
+        }
         userList.add(userDetails);
-
         // Send user to Kafka
         kafkaTemplate.send(KafkaProducerConfig.TOPIC_NAME, userDetails);
 

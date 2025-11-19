@@ -2,6 +2,8 @@ package com.company;
 
 
 import lombok.Data;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 import java.util.List;
 
 @Data
@@ -19,7 +21,10 @@ public class User {
     @Data
     public static class UserDetails {
         private int id;
+
+        @NotBlank(message = "Name is required")
         private String name;
+        @Min(value = 0, message = "Age cannot be negative")
         private int age;
         private Address address;
         private List<String> roles;
