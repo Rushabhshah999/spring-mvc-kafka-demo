@@ -25,15 +25,15 @@ public class UserController {
 
     // POST endpoint creating user, sending to Kafka, and returning the object
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) {
+    public ResponseEntity<List<User>> createUser(@RequestBody User user) {
 
 
         System.out.println(">>> POST /users called: " + user);
         userList.add(user);
 
         // Send user to Kafka
-        kafkaTemplate.send(KafkaConfig.TOPIC_NAME, user);
+        kafkaTemplate.send(KafkaProducerConfig.TOPIC_NAME, user);
 
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(userList);
     }
 }

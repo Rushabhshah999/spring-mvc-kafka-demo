@@ -13,7 +13,7 @@ import java.util.Map;
 
 @EnableKafka
 @Configuration
-public class KafkaConfig {
+public class KafkaProducerConfig {
 
     public static final String TOPIC_NAME = "user-topic";
 
